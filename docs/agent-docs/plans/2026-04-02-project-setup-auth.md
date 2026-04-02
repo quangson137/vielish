@@ -1,6 +1,6 @@
 # Project Setup + Auth Implementation Plan
 
-> Steps use checkbox (`- [ ]`) syntax for tracking progress.
+> Steps use checkbox (`- [x]`) syntax for tracking progress.
 
 **Goal:** Set up the full project infrastructure (Docker, PostgreSQL, Redis, Go backend, Next.js frontend) and implement JWT authentication.
 
@@ -63,7 +63,7 @@ vielish/
 **Files:**
 - Create: `docker-compose.yml`
 
-- [ ] **Step 1: Create Docker Compose file**
+- [x] **Step 1: Create Docker Compose file**
 
 ```yaml
 # docker-compose.yml
@@ -91,7 +91,7 @@ volumes:
   redisdata:
 ```
 
-- [ ] **Step 2: Start services and verify**
+- [x] **Step 2: Start services and verify**
 
 Run: `docker-compose up -d`
 Expected: Both containers running
@@ -111,11 +111,11 @@ Expected: Returns `1`
 - Create: `server/internal/config/config.go`
 - Create: `server/internal/config/config_test.go`
 
-- [ ] **Step 1: Initialize Go module**
+- [x] **Step 1: Initialize Go module**
 
 Run: `cd server && go mod init github.com/sonpham/vielish/server`
 
-- [ ] **Step 2: Write config test**
+- [x] **Step 2: Write config test**
 
 ```go
 // server/internal/config/config_test.go
@@ -202,12 +202,12 @@ func TestLoad_Production_WithJWTSecret(t *testing.T) {
 }
 ```
 
-- [ ] **Step 3: Run test to verify it fails**
+- [x] **Step 3: Run test to verify it fails**
 
 Run: `cd server && go test ./internal/config/ -v`
 Expected: FAIL — `Load` undefined
 
-- [ ] **Step 4: Write config implementation**
+- [x] **Step 4: Write config implementation**
 
 ```go
 // server/internal/config/config.go
@@ -266,7 +266,7 @@ func getEnv(key, fallback string) string {
 }
 ```
 
-- [ ] **Step 5: Run test to verify it passes**
+- [x] **Step 5: Run test to verify it passes**
 
 Run: `cd server && go test ./internal/config/ -v`
 Expected: PASS
@@ -279,11 +279,11 @@ Expected: PASS
 - Create: `server/internal/database/postgres.go`
 - Create: `server/internal/database/redis.go`
 
-- [ ] **Step 1: Install dependencies**
+- [x] **Step 1: Install dependencies**
 
 Run: `cd server && go get github.com/jackc/pgx/v5/pgxpool github.com/redis/go-redis/v9`
 
-- [ ] **Step 2: Write PostgreSQL connection**
+- [x] **Step 2: Write PostgreSQL connection**
 
 ```go
 // server/internal/database/postgres.go
@@ -310,7 +310,7 @@ func NewPostgres(ctx context.Context, databaseURL string) (*pgxpool.Pool, error)
 }
 ```
 
-- [ ] **Step 3: Write Redis connection**
+- [x] **Step 3: Write Redis connection**
 
 ```go
 // server/internal/database/redis.go
@@ -339,7 +339,7 @@ func NewRedis(ctx context.Context, redisURL string) (*redis.Client, error) {
 }
 ```
 
-- [ ] **Step 4: Verify compilation**
+- [x] **Step 4: Verify compilation**
 
 Run: `cd server && go build ./internal/database/`
 Expected: No errors
@@ -352,13 +352,13 @@ Expected: No errors
 - Create: `server/migrations/001_create_users.up.sql`
 - Create: `server/migrations/001_create_users.down.sql`
 
-- [ ] **Step 1: Install golang-migrate CLI**
+- [x] **Step 1: Install golang-migrate CLI**
 
 Run (macOS): `brew install golang-migrate`
 
 Alternatively (any OS): `go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest`
 
-- [ ] **Step 2: Create up migration**
+- [x] **Step 2: Create up migration**
 
 ```sql
 -- server/migrations/001_create_users.up.sql
@@ -376,7 +376,7 @@ CREATE TABLE users (
 CREATE INDEX idx_users_email ON users(email);
 ```
 
-- [ ] **Step 2: Create down migration**
+- [x] **Step 2: Create down migration**
 
 ```sql
 -- server/migrations/001_create_users.down.sql
@@ -384,7 +384,7 @@ DROP TABLE IF EXISTS users;
 DROP TYPE IF EXISTS user_level;
 ```
 
-- [ ] **Step 4: Apply migration using golang-migrate**
+- [x] **Step 4: Apply migration using golang-migrate**
 
 Run: `migrate -path server/migrations -database "postgres://vielish:vielish_dev@localhost:5432/vielish?sslmode=disable" up`
 Expected: `1/u create_users (Xms)`
@@ -392,7 +392,7 @@ Expected: `1/u create_users (Xms)`
 Run: `docker exec -i $(docker-compose ps -q postgres) psql -U vielish vielish -c "\d users"`
 Expected: Table structure with id, email, password_hash, display_name, level, created_at
 
-- [ ] **Step 5: Roll back and re-apply to verify down migration**
+- [x] **Step 5: Roll back and re-apply to verify down migration**
 
 Run: `migrate -path server/migrations -database "postgres://vielish:vielish_dev@localhost:5432/vielish?sslmode=disable" down 1`
 Expected: `1/d create_users (Xms)`
@@ -408,7 +408,7 @@ Expected: `1/u create_users (Xms)`
 - Create: `server/pkg/response/response.go`
 - Create: `server/pkg/response/response_test.go`
 
-- [ ] **Step 1: Write test**
+- [x] **Step 1: Write test**
 
 ```go
 // server/pkg/response/response_test.go
@@ -464,12 +464,12 @@ func TestError(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `cd server && go get github.com/gin-gonic/gin && go test ./pkg/response/ -v`
 Expected: FAIL — `Success` and `Error` undefined
 
-- [ ] **Step 3: Write implementation**
+- [x] **Step 3: Write implementation**
 
 ```go
 // server/pkg/response/response.go
@@ -486,7 +486,7 @@ func Error(c *gin.Context, status int, message string) {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `cd server && go test ./pkg/response/ -v`
 Expected: PASS
@@ -498,7 +498,7 @@ Expected: PASS
 **Files:**
 - Create: `server/internal/auth/model.go`
 
-- [ ] **Step 1: Write auth model and DTOs**
+- [x] **Step 1: Write auth model and DTOs**
 
 ```go
 // server/internal/auth/model.go
@@ -537,7 +537,7 @@ type RefreshRequest struct {
 }
 ```
 
-- [ ] **Step 2: Verify compilation**
+- [x] **Step 2: Verify compilation**
 
 Run: `cd server && go build ./internal/auth/`
 Expected: No errors
@@ -550,7 +550,7 @@ Expected: No errors
 - Create: `server/internal/auth/repository.go`
 - Create: `server/internal/auth/repository_test.go`
 
-- [ ] **Step 1: Write repository test**
+- [x] **Step 1: Write repository test**
 
 Note: These tests require a running PostgreSQL instance (integration tests).
 
@@ -669,12 +669,12 @@ func TestRepository_GetByID(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `cd server && go test ./internal/auth/ -run TestRepository -v`
 Expected: FAIL — `NewRepository`, `ErrUserNotFound`, `ErrEmailExists` undefined
 
-- [ ] **Step 3: Write repository implementation**
+- [x] **Step 3: Write repository implementation**
 
 ```go
 // server/internal/auth/repository.go
@@ -767,7 +767,7 @@ func (r *Repository) GetByID(ctx context.Context, id string) (*User, error) {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `cd server && go test ./internal/auth/ -run TestRepository -v`
 Expected: PASS (requires Docker postgres to be running with migration applied)
@@ -780,7 +780,7 @@ Expected: PASS (requires Docker postgres to be running with migration applied)
 - Create: `server/internal/auth/service.go`
 - Create: `server/internal/auth/service_test.go`
 
-- [ ] **Step 1: Write service test**
+- [x] **Step 1: Write service test**
 
 ```go
 // server/internal/auth/service_test.go
@@ -957,16 +957,16 @@ func TestService_RefreshToken(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `cd server && go test ./internal/auth/ -run TestService -v`
 Expected: FAIL — `NewService`, `ErrInvalidCredentials` undefined
 
-- [ ] **Step 3: Install JWT dependency**
+- [x] **Step 3: Install JWT dependency**
 
 Run: `cd server && go get github.com/golang-jwt/jwt/v5 golang.org/x/crypto`
 
-- [ ] **Step 4: Write service implementation**
+- [x] **Step 4: Write service implementation**
 
 ```go
 // server/internal/auth/service.go
@@ -1116,7 +1116,7 @@ func (s *Service) generateTokens(ctx context.Context, userID string) (*TokenResp
 }
 ```
 
-- [ ] **Step 5: Run test to verify it passes**
+- [x] **Step 5: Run test to verify it passes**
 
 Run: `cd server && go test ./internal/auth/ -run TestService -v`
 Expected: PASS
@@ -1129,7 +1129,7 @@ Expected: PASS
 - Create: `server/internal/auth/middleware.go`
 - Create: `server/internal/auth/middleware_test.go`
 
-- [ ] **Step 1: Write middleware test**
+- [x] **Step 1: Write middleware test**
 
 ```go
 // server/internal/auth/middleware_test.go
@@ -1242,12 +1242,12 @@ func TestAuthMiddleware_InvalidToken(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `cd server && go test ./internal/auth/ -run TestAuthMiddleware -v`
 Expected: FAIL — `AuthMiddleware` undefined
 
-- [ ] **Step 3: Write middleware implementation**
+- [x] **Step 3: Write middleware implementation**
 
 ```go
 // server/internal/auth/middleware.go
@@ -1310,7 +1310,7 @@ func AuthMiddleware(jwtSecret string) gin.HandlerFunc {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `cd server && go test ./internal/auth/ -run TestAuthMiddleware -v`
 Expected: PASS
@@ -1323,7 +1323,7 @@ Expected: PASS
 - Create: `server/internal/auth/handler.go`
 - Create: `server/internal/auth/handler_test.go`
 
-- [ ] **Step 1: Write handler test**
+- [x] **Step 1: Write handler test**
 
 ```go
 // server/internal/auth/handler_test.go
@@ -1536,12 +1536,12 @@ func TestHandler_Refresh_Success(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `cd server && go test ./internal/auth/ -run TestHandler -v`
 Expected: FAIL — `NewHandler`, `Handler` undefined
 
-- [ ] **Step 3: Write handler implementation**
+- [x] **Step 3: Write handler implementation**
 
 ```go
 // server/internal/auth/handler.go
@@ -1635,7 +1635,7 @@ func (h *Handler) Logout(c *gin.Context) {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `cd server && go test ./internal/auth/ -run TestHandler -v`
 Expected: PASS
@@ -1648,7 +1648,7 @@ Expected: PASS
 - Create: `server/internal/router/router.go`
 - Create: `server/cmd/api/main.go`
 
-- [ ] **Step 1: Write router**
+- [x] **Step 1: Write router**
 
 Note: This initial router will be replaced with the CORS-enabled version in Task 18. Write it without CORS first to verify basic routing works.
 
@@ -1685,7 +1685,7 @@ func New(authHandler *auth.Handler, jwtSecret string, corsOrigins []string) *gin
 }
 ```
 
-- [ ] **Step 2: Write server entrypoint**
+- [x] **Step 2: Write server entrypoint**
 
 ```go
 // server/cmd/api/main.go
@@ -1733,12 +1733,12 @@ func main() {
 }
 ```
 
-- [ ] **Step 3: Verify compilation**
+- [x] **Step 3: Verify compilation**
 
 Run: `cd server && go build ./cmd/api/`
 Expected: No errors
 
-- [ ] **Step 4: Manual smoke test**
+- [x] **Step 4: Manual smoke test**
 
 Run (in separate terminal): `cd server && go run cmd/api/main.go`
 Expected: "Starting server on :8080"
@@ -1757,16 +1757,16 @@ Expected: JSON with access_token, refresh_token, expires_in
 - Create: `web/` (via create-next-app)
 - Modify: `web/package.json`
 
-- [ ] **Step 1: Create Next.js project**
+- [x] **Step 1: Create Next.js project**
 
 Run: `npx create-next-app@latest web --typescript --tailwind --eslint --app --src-dir=false --import-alias="@/*" --no-turbopack`
 
-- [ ] **Step 2: Verify project runs**
+- [x] **Step 2: Verify project runs**
 
 Run: `cd web && npm run dev`
 Expected: Next.js dev server starts on port 3000
 
-- [ ] **Step 3: Clean up default content**
+- [x] **Step 3: Clean up default content**
 
 Replace `web/app/page.tsx` with a minimal landing page:
 
@@ -1805,7 +1805,7 @@ export default function Home() {
 **Files:**
 - Create: `web/lib/api.ts`
 
-- [ ] **Step 1: Write API client with token handling**
+- [x] **Step 1: Write API client with token handling**
 
 ```typescript
 // web/lib/api.ts
@@ -1943,7 +1943,7 @@ export const api = new ApiClient();
 **Files:**
 - Create: `web/lib/auth-context.tsx`
 
-- [ ] **Step 1: Write auth context provider**
+- [x] **Step 1: Write auth context provider**
 
 ```tsx
 // web/lib/auth-context.tsx
@@ -2026,7 +2026,7 @@ export function useAuth() {
 **Files:**
 - Create: `web/components/auth-form.tsx`
 
-- [ ] **Step 1: Write reusable auth form**
+- [x] **Step 1: Write reusable auth form**
 
 ```tsx
 // web/components/auth-form.tsx
@@ -2149,7 +2149,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
 - Create: `web/app/register/page.tsx`
 - Modify: `web/app/layout.tsx`
 
-- [ ] **Step 1: Update root layout to include AuthProvider**
+- [x] **Step 1: Update root layout to include AuthProvider**
 
 ```tsx
 // web/app/layout.tsx
@@ -2180,7 +2180,7 @@ export default function RootLayout({
 }
 ```
 
-- [ ] **Step 2: Write login page**
+- [x] **Step 2: Write login page**
 
 ```tsx
 // web/app/login/page.tsx
@@ -2217,7 +2217,7 @@ export default function LoginPage() {
 }
 ```
 
-- [ ] **Step 3: Write register page**
+- [x] **Step 3: Write register page**
 
 ```tsx
 // web/app/register/page.tsx
@@ -2263,7 +2263,7 @@ export default function RegisterPage() {
 - Create: `web/app/dashboard/layout.tsx`
 - Create: `web/app/dashboard/page.tsx`
 
-- [ ] **Step 1: Write dashboard layout with auth guard**
+- [x] **Step 1: Write dashboard layout with auth guard**
 
 ```tsx
 // web/app/dashboard/layout.tsx
@@ -2319,7 +2319,7 @@ export default function DashboardLayout({
 }
 ```
 
-- [ ] **Step 2: Write dashboard page (placeholder)**
+- [x] **Step 2: Write dashboard page (placeholder)**
 
 ```tsx
 // web/app/dashboard/page.tsx
@@ -2342,11 +2342,11 @@ export default function DashboardPage() {
 **Files:**
 - Modify: `server/internal/router/router.go`
 
-- [ ] **Step 1: Install CORS middleware**
+- [x] **Step 1: Install CORS middleware**
 
 Run: `cd server && go get github.com/gin-contrib/cors`
 
-- [ ] **Step 2: Update router with CORS**
+- [x] **Step 2: Update router with CORS**
 
 ```go
 // server/internal/router/router.go
@@ -2393,7 +2393,7 @@ func New(authHandler *auth.Handler, jwtSecret string, corsOrigins []string) *gin
 }
 ```
 
-- [ ] **Step 3: Verify compilation**
+- [x] **Step 3: Verify compilation**
 
 Run: `cd server && go build ./cmd/api/`
 Expected: No errors
@@ -2405,7 +2405,7 @@ Expected: No errors
 **Files:**
 - Create: `.env.example`
 
-- [ ] **Step 1: Create .env.example with all config variables**
+- [x] **Step 1: Create .env.example with all config variables**
 
 ```bash
 # .env.example
@@ -2429,7 +2429,7 @@ CORS_ORIGINS=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:8080
 ```
 
-- [ ] **Step 2: Add .env to .gitignore**
+- [x] **Step 2: Add .env to .gitignore**
 
 Ensure `.env` is in `.gitignore` (not `.env.example`):
 
@@ -2442,14 +2442,14 @@ Ensure `.env` is in `.gitignore` (not `.env.example`):
 
 ### Task 20: End-to-End Verification
 
-- [ ] **Step 1: Start all services**
+- [x] **Step 1: Start all services**
 
 Run: `docker-compose up -d`
 Run: `migrate -path server/migrations -database "postgres://vielish:vielish_dev@localhost:5432/vielish?sslmode=disable" up`
 Run (terminal 1): `cd server && go run cmd/api/main.go`
 Run (terminal 2): `cd web && npm run dev`
 
-- [ ] **Step 2: Test auth flow via curl**
+- [x] **Step 2: Test auth flow via curl**
 
 ```bash
 # Register
@@ -2475,7 +2475,7 @@ curl -s http://localhost:8080/api/health | jq .
 # Expected: {"status": "ok"}
 ```
 
-- [ ] **Step 3: Test frontend**
+- [x] **Step 3: Test frontend**
 
 Open browser to `http://localhost:3000`
 Expected: Landing page with "Đăng nhập"/"Đăng ký" links
@@ -2486,7 +2486,7 @@ Expected: Redirected to `/dashboard` after successful registration
 Navigate to `/login`, login with created credentials
 Expected: Redirected to `/dashboard` after successful login
 
-- [ ] **Step 4: Run all backend tests**
+- [x] **Step 4: Run all backend tests**
 
 Run: `cd server && go test ./... -v`
 Expected: All tests PASS
