@@ -1,0 +1,95 @@
+<h2>Kiến trúc tổng quan — Vielish</h2>
+<p class="subtitle">Go API + Next.js Frontend + AI Integration</p>
+
+<div class="mockup">
+  <div class="mockup-header">System Architecture</div>
+  <div class="mockup-body" style="padding: 24px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div style="display: inline-block; background: #3b82f6; color: white; padding: 12px 24px; border-radius: 8px; font-size: 15px;">
+        👤 User (Browser)
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #666; margin: 8px 0;">▼</div>
+
+    <div style="display: flex; gap: 16px; justify-content: center; margin: 16px 0;">
+      <div style="background: #1a1a2e; color: #e2e8f0; padding: 16px; border-radius: 8px; flex: 1; max-width: 280px; border: 1px solid #334155;">
+        <div style="color: #38bdf8; font-weight: bold; margin-bottom: 8px;">🌐 Next.js Frontend</div>
+        <div style="font-size: 12px; color: #94a3b8;">
+          • Pages & Components<br>
+          • Flashcard UI + Animations<br>
+          • Audio Player (luyện nghe)<br>
+          • Chat UI (hội thoại AI)<br>
+          • Web Speech API (TTS/STT)<br>
+          • Auth UI (login/register)
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #666; margin: 8px 0;">▼ REST API + WebSocket</div>
+
+    <div style="display: flex; gap: 16px; justify-content: center; margin: 16px 0;">
+      <div style="background: #0f2027; color: #e2e8f0; padding: 16px; border-radius: 8px; flex: 1; max-width: 280px; border: 1px solid #2dd4bf;">
+        <div style="color: #2dd4bf; font-weight: bold; margin-bottom: 8px;">⚡ Go API Server</div>
+        <div style="font-size: 12px; color: #94a3b8;">
+          • Auth (JWT)<br>
+          • Vocabulary Service<br>
+          • Listening Service<br>
+          • AI Chat Service<br>
+          • SRS Engine (Spaced Repetition)<br>
+          • Progress Tracking
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #666; margin: 8px 0;">▼</div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 16px 0;">
+      <div style="background: #1e293b; color: #e2e8f0; padding: 12px 16px; border-radius: 8px; border: 1px solid #475569; text-align: center;">
+        <div style="color: #a78bfa; font-weight: bold; font-size: 13px;">🗄 PostgreSQL</div>
+        <div style="font-size: 11px; color: #94a3b8;">Users, Vocab,<br>Progress, Content</div>
+      </div>
+      <div style="background: #1e293b; color: #e2e8f0; padding: 12px 16px; border-radius: 8px; border: 1px solid #475569; text-align: center;">
+        <div style="color: #fb923c; font-weight: bold; font-size: 13px;">⚡ Redis</div>
+        <div style="font-size: 11px; color: #94a3b8;">Cache, Session,<br>SRS Queue</div>
+      </div>
+      <div style="background: #1e293b; color: #e2e8f0; padding: 12px 16px; border-radius: 8px; border: 1px solid #475569; text-align: center;">
+        <div style="color: #34d399; font-weight: bold; font-size: 13px;">🤖 Claude API</div>
+        <div style="font-size: 11px; color: #94a3b8;">Chat, Content Gen,<br>Feedback</div>
+      </div>
+      <div style="background: #1e293b; color: #e2e8f0; padding: 12px 16px; border-radius: 8px; border: 1px solid #475569; text-align: center;">
+        <div style="color: #f472b6; font-weight: bold; font-size: 13px;">🔊 Cloud TTS</div>
+        <div style="font-size: 11px; color: #94a3b8;">Google/Azure TTS<br>Native Audio</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px;">
+  <h3>Cấu trúc thư mục dự án</h3>
+  <div style="display: flex; gap: 16px;">
+    <div style="flex: 1; background: #1e293b; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 12px; color: #e2e8f0; line-height: 1.6;">
+      <div style="color: #38bdf8; margin-bottom: 4px;">vielish/</div>
+      <div style="padding-left: 12px;">
+        <span style="color: #2dd4bf;">server/</span> — Go backend<br>
+        <span style="padding-left: 16px; color: #94a3b8;">cmd/api/</span> — entrypoint<br>
+        <span style="padding-left: 16px; color: #94a3b8;">internal/</span> — business logic<br>
+        <span style="padding-left: 32px; color: #94a3b8;">auth/</span><br>
+        <span style="padding-left: 32px; color: #94a3b8;">vocab/</span><br>
+        <span style="padding-left: 32px; color: #94a3b8;">listening/</span><br>
+        <span style="padding-left: 32px; color: #94a3b8;">chat/</span><br>
+        <span style="padding-left: 32px; color: #94a3b8;">srs/</span><br>
+        <span style="padding-left: 16px; color: #94a3b8;">pkg/</span> — shared utilities<br>
+        <span style="padding-left: 16px; color: #94a3b8;">migrations/</span> — SQL migrations<br>
+        <br>
+        <span style="color: #3b82f6;">web/</span> — Next.js frontend<br>
+        <span style="padding-left: 16px; color: #94a3b8;">app/</span> — pages (App Router)<br>
+        <span style="padding-left: 16px; color: #94a3b8;">components/</span> — UI components<br>
+        <span style="padding-left: 16px; color: #94a3b8;">lib/</span> — API client, utils<br>
+        <br>
+        <span style="color: #94a3b8;">docs/</span> — documentation<br>
+        <span style="color: #94a3b8;">docker-compose.yml</span><br>
+      </div>
+    </div>
+  </div>
+</div>
