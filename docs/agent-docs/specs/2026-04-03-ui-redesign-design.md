@@ -65,6 +65,7 @@ Add the tokens under `theme.extend.colors.warm` in `tailwind.config.ts`.
 
 [Social proof line]
   "⭐ Được dùng bởi hàng nghìn học viên Việt Nam"
+  (placeholder copy — update when real user numbers are available)
 ```
 
 ### Changes from Current
@@ -100,7 +101,8 @@ Add the tokens under `theme.extend.colors.warm` in `tailwind.config.ts`.
 
 ```
 [Greeting]
-  "Chào buổi sáng, [display_name]! 👋"
+  "Xin chào, [display_name]! 👋"
+  (display_name from useAuth() context — the user's display name set at registration)
 
 [Stats row — 3 cards]
   🔥 [streak] ngày streak
