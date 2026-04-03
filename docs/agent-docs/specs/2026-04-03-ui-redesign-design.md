@@ -172,3 +172,10 @@ Uses the browser's built-in Web Speech API. No TTS endpoint, no API key.
 6. `/components/flashcard.tsx` — TTS button
 
 Each phase is independently deployable.
+
+---
+
+## Implementation Plans
+
+- [x] **Plan 1: UI Redesign** — Warm theme, dashboard stats, flashcard TTS across all pages
+  - `docs/agent-docs/plans/2026-04-03-ui-redesign.md`
