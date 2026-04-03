@@ -91,7 +91,7 @@ server/pkg/response/           (all files)
 **Files:**
 - Modify: `server/go.mod` (via `go get`)
 
-- [ ] **Step 1: Add fx, GORM, Viper, Zap, OpenTelemetry**
+- [x] **Step 1: Add fx, GORM, Viper, Zap, OpenTelemetry**
 
 Run from `server/`:
 ```bash
@@ -117,7 +117,7 @@ Expected: `go.mod` now lists all new direct dependencies, `go.sum` updated. `go 
 - Create: `server/pkg/config/config.go`
 - Create: `server/pkg/config/config_test.go`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `server/pkg/config/config_test.go`:
 ```go
@@ -192,7 +192,7 @@ func TestLoad_EnvOverridesYAML(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 ```bash
 cd server && go test ./pkg/config/... -run TestLoad -v
@@ -200,7 +200,7 @@ cd server && go test ./pkg/config/... -run TestLoad -v
 
 Expected: `FAIL` — `package config` undefined.
 
-- [ ] **Step 3: Implement pkg/config/config.go**
+- [x] **Step 3: Implement pkg/config/config.go**
 
 ```go
 package config
@@ -302,7 +302,7 @@ var Module = fx.Module("config",
 )
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```bash
 cd server && go test ./pkg/config/... -run TestLoad -v
@@ -318,7 +318,7 @@ Expected: `PASS` for both `TestLoad_ReadsYAML` and `TestLoad_EnvOverridesYAML`.
 - Create: `server/pkg/ctxbase/ctxbase.go`
 - Create: `server/pkg/ctxbase/ctxbase_test.go`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `server/pkg/ctxbase/ctxbase_test.go`:
 ```go
@@ -361,7 +361,7 @@ func TestSetGetRequestID(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 ```bash
 cd server && go test ./pkg/ctxbase/... -v
@@ -369,7 +369,7 @@ cd server && go test ./pkg/ctxbase/... -v
 
 Expected: `FAIL` — package not found.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `server/pkg/ctxbase/ctxbase.go`:
 ```go
@@ -403,7 +403,7 @@ func GetRequestID(ctx context.Context) (string, bool) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```bash
 cd server && go test ./pkg/ctxbase/... -v
@@ -421,7 +421,7 @@ Expected: `PASS`.
 
 > Note: `Success` passes `data` directly to `c.JSON` (matching existing `pkg/response` behavior — no outer `{"data": ...}` wrapper). `Error` wraps in `{"error": "..."}`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `server/pkg/httpbase/httpbase_test.go`:
 ```go
@@ -472,7 +472,7 @@ func TestError(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 ```bash
 cd server && go test ./pkg/httpbase/... -v
@@ -480,7 +480,7 @@ cd server && go test ./pkg/httpbase/... -v
 
 Expected: `FAIL` — package not found.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `server/pkg/httpbase/httpbase.go`:
 ```go
@@ -497,7 +497,7 @@ func Error(c *gin.Context, status int, msg string) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```bash
 cd server && go test ./pkg/httpbase/... -v
@@ -514,7 +514,7 @@ Expected: `PASS`.
 
 No dedicated unit test (infrastructure — depends on zap internals). Compilation verifies correctness.
 
-- [ ] **Step 1: Implement**
+- [x] **Step 1: Implement**
 
 `server/pkg/log/log.go`:
 ```go
@@ -556,7 +556,7 @@ var Module = fx.Module("log",
 )
 ```
 
-- [ ] **Step 2: Verify it compiles**
+- [x] **Step 2: Verify it compiles**
 
 ```bash
 cd server && go build ./pkg/log/...
@@ -573,7 +573,7 @@ Expected: exits 0, no output.
 
 When `tracing.enabled: false` (the default), returns a no-op `TracerProvider` with no network connections.
 
-- [ ] **Step 1: Implement**
+- [x] **Step 1: Implement**
 
 `server/pkg/tracing/tracing.go`:
 ```go
@@ -627,7 +627,7 @@ var Module = fx.Module("tracing",
 )
 ```
 
-- [ ] **Step 2: Verify it compiles**
+- [x] **Step 2: Verify it compiles**
 
 ```bash
 cd server && go build ./pkg/tracing/...
@@ -644,7 +644,7 @@ Expected: exits 0.
 - Create: `server/internal/driven/database/redis.go`
 - Create: `server/internal/driven/database/module.go`
 
-- [ ] **Step 1: Implement gorm.go**
+- [x] **Step 1: Implement gorm.go**
 
 `server/internal/driven/database/gorm.go`:
 ```go
@@ -670,7 +670,7 @@ func NewGorm(cfg config.Config, log *zap.Logger) (*gorm.DB, error) {
 }
 ```
 
-- [ ] **Step 2: Implement redis.go**
+- [x] **Step 2: Implement redis.go**
 
 `server/internal/driven/database/redis.go`:
 ```go
@@ -704,7 +704,7 @@ func NewRedis(lc fx.Lifecycle, cfg config.Config, log *zap.Logger) (*redis.Clien
 }
 ```
 
-- [ ] **Step 3: Implement module.go**
+- [x] **Step 3: Implement module.go**
 
 `server/internal/driven/database/module.go`:
 ```go
@@ -718,7 +718,7 @@ var Module = fx.Module("database",
 )
 ```
 
-- [ ] **Step 4: Verify it compiles**
+- [x] **Step 4: Verify it compiles**
 
 ```bash
 cd server && go build ./internal/driven/database/...
@@ -738,7 +738,7 @@ Expected: exits 0.
 - Create: `server/internal/domain/auth/service_test.go`
 - Create: `server/internal/domain/auth/module.go`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `server/internal/domain/auth/service_test.go`:
 ```go
@@ -837,7 +837,7 @@ func TestGenerateRefreshToken_Unique(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 ```bash
 cd server && go test ./internal/domain/auth/... -v
@@ -845,7 +845,7 @@ cd server && go test ./internal/domain/auth/... -v
 
 Expected: `FAIL` — package not found.
 
-- [ ] **Step 3: Implement entity.go**
+- [x] **Step 3: Implement entity.go**
 
 `server/internal/domain/auth/entity.go`:
 ```go
@@ -863,7 +863,7 @@ type User struct {
 }
 ```
 
-- [ ] **Step 4: Implement errors.go**
+- [x] **Step 4: Implement errors.go**
 
 `server/internal/domain/auth/errors.go`:
 ```go
@@ -879,7 +879,7 @@ var (
 )
 ```
 
-- [ ] **Step 5: Implement repository.go**
+- [x] **Step 5: Implement repository.go**
 
 `server/internal/domain/auth/repository.go`:
 ```go
@@ -902,7 +902,7 @@ type Repository interface {
 }
 ```
 
-- [ ] **Step 6: Implement service.go**
+- [x] **Step 6: Implement service.go**
 
 `server/internal/domain/auth/service.go`:
 ```go
@@ -993,7 +993,7 @@ func (s *Service) AccessTTLSeconds() int {
 }
 ```
 
-- [ ] **Step 7: Implement module.go**
+- [x] **Step 7: Implement module.go**
 
 `server/internal/domain/auth/module.go`:
 ```go
@@ -1006,7 +1006,7 @@ var Module = fx.Module("auth-domain",
 )
 ```
 
-- [ ] **Step 8: Run tests to verify they pass**
+- [x] **Step 8: Run tests to verify they pass**
 
 ```bash
 cd server && go test ./internal/domain/auth/... -v
@@ -1024,7 +1024,7 @@ Expected: all 5 tests `PASS`.
 - Create: `server/internal/appcore/auth/usecase_test.go`
 - Create: `server/internal/appcore/auth/module.go`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 `server/internal/appcore/auth/usecase_test.go`:
 ```go
@@ -1203,7 +1203,7 @@ func TestUseCase_Logout(t *testing.T) {
 }
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 ```bash
 cd server && go test ./internal/appcore/auth/... -v
@@ -1211,7 +1211,7 @@ cd server && go test ./internal/appcore/auth/... -v
 
 Expected: `FAIL` — package not found.
 
-- [ ] **Step 3: Implement dto.go**
+- [x] **Step 3: Implement dto.go**
 
 `server/internal/appcore/auth/dto.go`:
 ```go
@@ -1235,7 +1235,7 @@ type TokenOutput struct {
 }
 ```
 
-- [ ] **Step 4: Implement usecase.go**
+- [x] **Step 4: Implement usecase.go**
 
 `server/internal/appcore/auth/usecase.go`:
 ```go
@@ -1326,7 +1326,7 @@ func (uc *UseCase) issueTokens(ctx context.Context, userID string) (*TokenOutput
 }
 ```
 
-- [ ] **Step 5: Implement module.go**
+- [x] **Step 5: Implement module.go**
 
 `server/internal/appcore/auth/module.go`:
 ```go
@@ -1339,7 +1339,7 @@ var Module = fx.Module("auth-appcore",
 )
 ```
 
-- [ ] **Step 6: Run tests to verify they pass**
+- [x] **Step 6: Run tests to verify they pass**
 
 ```bash
 cd server && go test ./internal/appcore/auth/... -v
@@ -1358,7 +1358,7 @@ Expected: all 6 tests `PASS`.
 
 > Integration tests for this layer require a running Postgres + Redis. They are not in scope for unit testing — verify by running the full server in Task 14.
 
-- [ ] **Step 1: Implement gorm_model.go**
+- [x] **Step 1: Implement gorm_model.go**
 
 `server/internal/driven/auth/gorm_model.go`:
 ```go
@@ -1393,7 +1393,7 @@ func (m *UserModel) ToEntity() *domain.User {
 }
 ```
 
-- [ ] **Step 2: Implement repository.go**
+- [x] **Step 2: Implement repository.go**
 
 `server/internal/driven/auth/repository.go`:
 ```go
@@ -1477,7 +1477,7 @@ func (r *Repository) DeleteRefreshToken(ctx context.Context, token string) error
 }
 ```
 
-- [ ] **Step 3: Implement module.go**
+- [x] **Step 3: Implement module.go**
 
 `server/internal/driven/auth/module.go`:
 ```go
@@ -1499,7 +1499,7 @@ var Module = fx.Module("auth-driven",
 )
 ```
 
-- [ ] **Step 4: Verify it compiles**
+- [x] **Step 4: Verify it compiles**
 
 ```bash
 cd server && go build ./internal/driven/auth/...
@@ -1520,7 +1520,7 @@ Expected: exits 0.
 - Create: `server/internal/driving/httpui/server.go`
 - Create: `server/internal/driving/httpui/module.go`
 
-- [ ] **Step 1: Write failing tests for middleware**
+- [x] **Step 1: Write failing tests for middleware**
 
 `server/internal/driving/httpui/middleware/auth_test.go`:
 ```go
@@ -1608,7 +1608,7 @@ func TestAuthMiddleware_InvalidToken(t *testing.T) {
 var _ = appcore.TokenOutput{}
 ```
 
-- [ ] **Step 2: Run to verify middleware test fails**
+- [x] **Step 2: Run to verify middleware test fails**
 
 ```bash
 cd server && go test ./internal/driving/httpui/middleware/... -v
@@ -1616,7 +1616,7 @@ cd server && go test ./internal/driving/httpui/middleware/... -v
 
 Expected: `FAIL` — package not found.
 
-- [ ] **Step 3: Implement middleware/auth.go**
+- [x] **Step 3: Implement middleware/auth.go**
 
 `server/internal/driving/httpui/middleware/auth.go`:
 ```go
@@ -1659,7 +1659,7 @@ func Auth(svc *domain.Service) gin.HandlerFunc {
 }
 ```
 
-- [ ] **Step 4: Run middleware tests to verify they pass**
+- [x] **Step 4: Run middleware tests to verify they pass**
 
 ```bash
 cd server && go test ./internal/driving/httpui/middleware/... -v
@@ -1667,7 +1667,7 @@ cd server && go test ./internal/driving/httpui/middleware/... -v
 
 Expected: all 3 middleware tests `PASS`.
 
-- [ ] **Step 5: Write failing handler tests**
+- [x] **Step 5: Write failing handler tests**
 
 `server/internal/driving/httpui/handler/auth_handler_test.go`:
 ```go
@@ -1715,7 +1715,7 @@ func (s *stubUseCase) Logout(ctx context.Context, token string) error {
 
 > **Note:** The handler currently accepts `*appcore.UseCase` (concrete type). To enable the stub above, `handler.NewHandler` must accept an interface. Update the handler to use `UseCaseInterface` (see Step 6 below).
 
-- [ ] **Step 6: Implement handler with use-case interface**
+- [x] **Step 6: Implement handler with use-case interface**
 
 `server/internal/driving/httpui/handler/auth_handler.go`:
 ```go
@@ -1838,7 +1838,7 @@ func (h *Handler) Logout(c *gin.Context) {
 }
 ```
 
-- [ ] **Step 7: Implement presenter/auth_presenter.go**
+- [x] **Step 7: Implement presenter/auth_presenter.go**
 
 `server/internal/driving/httpui/presenter/auth_presenter.go`:
 ```go
@@ -1864,7 +1864,7 @@ func (p *AuthPresenter) Tokens(c *gin.Context, status int, out *appcore.TokenOut
 }
 ```
 
-- [ ] **Step 8: Complete the handler test**
+- [x] **Step 8: Complete the handler test**
 
 Add these test functions to `auth_handler_test.go`:
 ```go
@@ -1941,7 +1941,7 @@ func NewHandlerFromInterface(uc UseCaseInterface, p *presenter.AuthPresenter) *H
 }
 ```
 
-- [ ] **Step 9: Run handler tests**
+- [x] **Step 9: Run handler tests**
 
 ```bash
 cd server && go test ./internal/driving/httpui/handler/... -v
@@ -1949,7 +1949,7 @@ cd server && go test ./internal/driving/httpui/handler/... -v
 
 Expected: `TestHandler_Register_201`, `TestHandler_Register_409_DuplicateEmail`, `TestHandler_Login_401_BadPassword` all `PASS`.
 
-- [ ] **Step 10: Implement server.go**
+- [x] **Step 10: Implement server.go**
 
 `server/internal/driving/httpui/server.go`:
 ```go
@@ -2028,7 +2028,7 @@ func RegisterLifecycle(lc fx.Lifecycle, r *gin.Engine, cfg config.Config, log *z
 }
 ```
 
-- [ ] **Step 11: Implement module.go**
+- [x] **Step 11: Implement module.go**
 
 `server/internal/driving/httpui/module.go`:
 ```go
@@ -2050,7 +2050,7 @@ var Module = fx.Module("httpui",
 )
 ```
 
-- [ ] **Step 12: Verify all httpui compiles**
+- [x] **Step 12: Verify all httpui compiles**
 
 ```bash
 cd server && go build ./internal/driving/...
@@ -2066,7 +2066,7 @@ Expected: exits 0.
 - Create: `server/cmd/api/config.yaml`
 - Rewrite: `server/cmd/api/main.go`
 
-- [ ] **Step 1: Create config.yaml**
+- [x] **Step 1: Create config.yaml**
 
 `server/cmd/api/config.yaml`:
 ```yaml
@@ -2094,7 +2094,7 @@ tracing:
   endpoint: localhost:4317
 ```
 
-- [ ] **Step 2: Rewrite main.go**
+- [x] **Step 2: Rewrite main.go**
 
 `server/cmd/api/main.go`:
 ```go
@@ -2134,7 +2134,7 @@ func main() {
 }
 ```
 
-- [ ] **Step 3: Verify the binary compiles (old packages still exist — that's fine for now)**
+- [x] **Step 3: Verify the binary compiles (old packages still exist — that's fine for now)**
 
 ```bash
 cd server && go build ./cmd/api/...
@@ -2148,7 +2148,7 @@ Expected: exits 0. If there are import conflicts with the old packages, proceed 
 
 Remove all packages superseded by the new architecture.
 
-- [ ] **Step 1: Delete old packages**
+- [x] **Step 1: Delete old packages**
 
 ```bash
 rm -rf server/internal/auth/
@@ -2158,7 +2158,7 @@ rm -rf server/internal/router/
 rm -rf server/pkg/response/
 ```
 
-- [ ] **Step 2: Tidy modules**
+- [x] **Step 2: Tidy modules**
 
 ```bash
 cd server && go mod tidy
@@ -2166,7 +2166,7 @@ cd server && go mod tidy
 
 Expected: exits 0. No references to deleted packages remain.
 
-- [ ] **Step 3: Build and test**
+- [x] **Step 3: Build and test**
 
 ```bash
 cd server && go build ./... && go test ./...
@@ -2180,7 +2180,7 @@ Expected: build exits 0; all unit tests pass. DB-dependent tests are skipped (no
 
 Requires running Postgres + Redis (use existing docker-compose).
 
-- [ ] **Step 1: Start infrastructure**
+- [x] **Step 1: Start infrastructure**
 
 ```bash
 cd /path/to/vielish && docker-compose up -d postgres redis
@@ -2188,7 +2188,7 @@ cd /path/to/vielish && docker-compose up -d postgres redis
 
 Expected: both containers healthy.
 
-- [ ] **Step 2: Run the server**
+- [x] **Step 2: Run the server**
 
 ```bash
 cd server && go run cmd/api/main.go
@@ -2201,7 +2201,7 @@ Expected output (zap development logger):
 {"level":"info","msg":"starting HTTP server","port":"8080"}
 ```
 
-- [ ] **Step 3: Health check**
+- [x] **Step 3: Health check**
 
 ```bash
 curl http://localhost:8080/api/health
@@ -2209,7 +2209,7 @@ curl http://localhost:8080/api/health
 
 Expected: `{"status":"ok"}`
 
-- [ ] **Step 4: Register user**
+- [x] **Step 4: Register user**
 
 ```bash
 curl -s -X POST http://localhost:8080/api/auth/register \
@@ -2226,7 +2226,7 @@ Expected (HTTP 201):
 }
 ```
 
-- [ ] **Step 5: Login**
+- [x] **Step 5: Login**
 
 ```bash
 curl -s -X POST http://localhost:8080/api/auth/login \
@@ -2236,7 +2236,7 @@ curl -s -X POST http://localhost:8080/api/auth/login \
 
 Expected: HTTP 200 with tokens.
 
-- [ ] **Step 6: Duplicate email → 409**
+- [x] **Step 6: Duplicate email → 409**
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/api/auth/register \
@@ -2246,7 +2246,7 @@ curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/api/auth/re
 
 Expected: `409`
 
-- [ ] **Step 7: Wrong password → 401**
+- [x] **Step 7: Wrong password → 401**
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:8080/api/auth/login \

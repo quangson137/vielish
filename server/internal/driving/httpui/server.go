@@ -2,6 +2,7 @@ package httpui
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
@@ -59,7 +60,7 @@ func RegisterLifecycle(lc fx.Lifecycle, shutter fx.Shutdowner, r *gin.Engine, cf
 		OnStart: func(ctx context.Context) error {
 			log.Info("starting HTTP server", zap.String("port", cfg.App.Port))
 			go func() {
-				if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 					log.Error("HTTP server error", zap.Error(err))
 					_ = shutter.Shutdown(fx.ExitCode(1))
 				}
