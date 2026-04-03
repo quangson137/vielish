@@ -24,7 +24,7 @@ func NewGin(cfg config.Config) *gin.Engine {
 	return gin.New()
 }
 
-func RegisterRoutes(r *gin.Engine, h *handler.Handler, svc *domain.Service, cfg config.Config) {
+func RegisterRoutes(r *gin.Engine, authHandler *handler.Handler, vocabHandler *handler.VocabHandler, svc *domain.Service, cfg config.Config) {
 	r.Use(gin.Recovery())
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     cfg.CORS.Origins,
@@ -41,14 +41,25 @@ func RegisterRoutes(r *gin.Engine, h *handler.Handler, svc *domain.Service, cfg 
 
 	auth := r.Group("/api/auth")
 	{
-		auth.POST("/register", h.Register)
-		auth.POST("/login", h.Login)
-		auth.POST("/refresh", h.Refresh)
-		auth.POST("/logout", h.Logout)
+		auth.POST("/register", authHandler.Register)
+		auth.POST("/login", authHandler.Login)
+		auth.POST("/refresh", authHandler.Refresh)
+		auth.POST("/logout", authHandler.Logout)
 	}
 
-	// Protected group — placeholder for vocab, listening features.
-	_ = r.Group("/api").Use(middleware.Auth(svc))
+	// Public vocab endpoints
+	r.GET("/api/topics", vocabHandler.ListTopics)
+	r.GET("/api/topics/:id/words", vocabHandler.GetTopicWords)
+	r.GET("/api/words/:id", vocabHandler.GetWord)
+
+	// Protected vocab endpoints
+	protected := r.Group("/api").Use(middleware.Auth(svc))
+	{
+		protected.GET("/review/due", vocabHandler.GetDueReviews)
+		protected.POST("/review/:wordId", vocabHandler.SubmitReview)
+		protected.GET("/quiz/:topicId", vocabHandler.GetQuiz)
+		protected.POST("/quiz/:topicId", vocabHandler.SubmitQuiz)
+	}
 }
 
 func RegisterLifecycle(lc fx.Lifecycle, shutter fx.Shutdowner, r *gin.Engine, cfg config.Config, log *zap.Logger) {

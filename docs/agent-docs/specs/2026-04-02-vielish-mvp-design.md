@@ -133,7 +133,8 @@ user_listening_progress: user_id, lesson_id, score, completed_at
 
 - [x] **Plan 1: Project Setup + Auth** — Docker, DB, Go project, auth endpoints, Next.js setup
   - `docs/agent-docs/plans/2026-04-02-project-setup-auth.md`
-- [ ] **Plan 2: Vocabulary (Backend + Frontend)** — Topics, words, SRS, flashcards, quiz
+- [x] **Plan 2: Vocabulary (Backend + Frontend)** — Topics, words, SRS, flashcards, quiz
+  - `docs/agent-docs/plans/2026-04-03-vocabulary-backend-frontend.md`
 - [ ] **Plan 3: Listening (Backend + Frontend)** — Lessons, questions, audio player
 - [ ] **Plan 4: Progress & Dashboard** — Progress endpoints, dashboard UI
 

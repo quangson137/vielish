@@ -10,7 +10,9 @@ import (
 var Module = fx.Module("httpui",
 	fx.Provide(NewGin),
 	fx.Provide(handler.NewHandler),
+	fx.Provide(handler.NewVocabHandler),
 	fx.Provide(presenter.NewAuthPresenter),
+	fx.Provide(presenter.NewVocabPresenter),
 	fx.Invoke(RegisterRoutes),
 	fx.Invoke(RegisterLifecycle),
 )

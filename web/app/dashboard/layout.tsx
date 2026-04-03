@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 
 export default function DashboardLayout({
@@ -33,7 +34,18 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen">
       <nav className="border-b px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Vielish</h1>
+        <div className="flex items-center gap-6">
+          <h1 className="text-xl font-bold">Vielish</h1>
+          <Link href="/dashboard" className="text-sm text-gray-600 hover:text-gray-900">
+            Trang chủ
+          </Link>
+          <Link href="/dashboard/topics" className="text-sm text-gray-600 hover:text-gray-900">
+            Chủ đề
+          </Link>
+          <Link href="/dashboard/review" className="text-sm text-gray-600 hover:text-gray-900">
+            Ôn tập
+          </Link>
+        </div>
         <button
           onClick={() => {
             logout();
