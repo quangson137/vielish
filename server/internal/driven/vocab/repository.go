@@ -124,6 +124,45 @@ func (r *Repository) UpsertProgress(ctx context.Context, p *domain.UserWordProgr
 	return nil
 }
 
+func (r *Repository) CountLearnedWords(ctx context.Context, userID string) (int, error) {
+	var count int64
+	err := r.db.WithContext(ctx).
+		Model(&UserWordProgressModel{}).
+		Where("user_id = ? AND review_count > 0", userID).
+		Count(&count).Error
+	if err != nil {
+		return 0, fmt.Errorf("counting learned words: %w", err)
+	}
+	return int(count), nil
+}
+
+func (r *Repository) CountDueWords(ctx context.Context, userID string, now time.Time) (int, error) {
+	var count int64
+	err := r.db.WithContext(ctx).
+		Model(&UserWordProgressModel{}).
+		Where("user_id = ? AND next_review_at <= ?", userID, now).
+		Count(&count).Error
+	if err != nil {
+		return 0, fmt.Errorf("counting due words: %w", err)
+	}
+	return int(count), nil
+}
+
+func (r *Repository) GetReviewDates(ctx context.Context, userID string) ([]time.Time, error) {
+	var dates []time.Time
+	err := r.db.WithContext(ctx).
+		Model(&UserWordProgressModel{}).
+		Where("user_id = ? AND last_reviewed_at IS NOT NULL", userID).
+		Select("DISTINCT DATE(last_reviewed_at) as review_date").
+		Order("review_date DESC").
+		Limit(90).
+		Pluck("review_date", &dates).Error
+	if err != nil {
+		return nil, fmt.Errorf("getting review dates: %w", err)
+	}
+	return dates, nil
+}
+
 func (r *Repository) GetDueWords(ctx context.Context, userID string, now time.Time, limit int) ([]domain.Word, error) {
 	var models []WordModel
 	err := r.db.WithContext(ctx).

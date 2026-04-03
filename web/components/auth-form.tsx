@@ -58,7 +58,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             required
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-warm-border rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-accent bg-warm-surface"
           />
         </div>
       )}
@@ -73,7 +73,7 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-warm-border rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-accent bg-warm-surface"
         />
       </div>
 
@@ -88,14 +88,14 @@ export default function AuthForm({ mode, onSubmit }: AuthFormProps) {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={8}
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-warm-border rounded-lg focus:outline-none focus:ring-2 focus:ring-warm-accent bg-warm-surface"
         />
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+        className="w-full py-3 bg-warm-accent text-white rounded-lg hover:bg-warm-accent-hover disabled:opacity-50"
       >
         {loading
           ? "Đang tải..."

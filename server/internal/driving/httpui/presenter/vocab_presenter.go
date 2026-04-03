@@ -30,3 +30,7 @@ func (p *VocabPresenter) Quiz(c *gin.Context, status int, questions []appcore.Qu
 func (p *VocabPresenter) QuizResult(c *gin.Context, status int, result *appcore.QuizResult) {
 	httpbase.Success(c, status, result)
 }
+
+func (p *VocabPresenter) Stats(c *gin.Context, status int, stats *appcore.StatsOutput) {
+	httpbase.Success(c, status, stats)
+}

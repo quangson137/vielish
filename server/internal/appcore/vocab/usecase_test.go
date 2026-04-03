@@ -103,6 +103,30 @@ func (r *stubRepo) GetDueWords(_ context.Context, userID string, now time.Time, 
 	return out, nil
 }
 
+func (r *stubRepo) CountLearnedWords(_ context.Context, userID string) (int, error) {
+	count := 0
+	for _, p := range r.progress {
+		if p.UserID == userID && p.ReviewCount > 0 {
+			count++
+		}
+	}
+	return count, nil
+}
+
+func (r *stubRepo) CountDueWords(_ context.Context, userID string, now time.Time) (int, error) {
+	count := 0
+	for _, p := range r.progress {
+		if p.UserID == userID && !p.NextReviewAt.After(now) {
+			count++
+		}
+	}
+	return count, nil
+}
+
+func (r *stubRepo) GetReviewDates(_ context.Context, userID string) ([]time.Time, error) {
+	return nil, nil
+}
+
 // --- Tests ---
 
 func TestListTopics(t *testing.T) {

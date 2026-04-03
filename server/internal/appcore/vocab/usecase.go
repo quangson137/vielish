@@ -168,6 +168,54 @@ func (uc *UseCase) SubmitQuiz(ctx context.Context, userID, topicID string, input
 	}, nil
 }
 
+func (uc *UseCase) GetStats(ctx context.Context, userID string) (*StatsOutput, error) {
+	totalLearned, err := uc.repo.CountLearnedWords(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	dueToday, err := uc.repo.CountDueWords(ctx, userID, time.Now())
+	if err != nil {
+		return nil, err
+	}
+
+	dates, err := uc.repo.GetReviewDates(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	streak := calculateStreak(dates)
+
+	return &StatsOutput{
+		Streak:       streak,
+		TotalLearned: totalLearned,
+		DueToday:     dueToday,
+	}, nil
+}
+
+func calculateStreak(dates []time.Time) int {
+	if len(dates) == 0 {
+		return 0
+	}
+
+	streak := 0
+	today := time.Now().Truncate(24 * time.Hour)
+
+	// dates are expected in descending order (most recent first)
+	expected := today
+	for _, d := range dates {
+		day := d.Truncate(24 * time.Hour)
+		if day.Equal(expected) {
+			streak++
+			expected = expected.AddDate(0, 0, -1)
+		} else if day.Before(expected) {
+			break
+		}
+	}
+
+	return streak
+}
+
 func toWordOutput(w domain.Word) WordOutput {
 	return WordOutput{
 		ID:                   w.ID,

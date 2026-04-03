@@ -59,6 +59,7 @@ func RegisterRoutes(r *gin.Engine, authHandler *handler.Handler, vocabHandler *h
 		protected.POST("/review/:wordId", vocabHandler.SubmitReview)
 		protected.GET("/quiz/:topicId", vocabHandler.GetQuiz)
 		protected.POST("/quiz/:topicId", vocabHandler.SubmitQuiz)
+		protected.GET("/stats", vocabHandler.GetStats)
 	}
 }
 

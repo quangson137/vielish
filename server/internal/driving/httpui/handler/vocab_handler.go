@@ -22,6 +22,7 @@ type VocabUseCaseInterface interface {
 	SubmitReview(ctx context.Context, userID, wordID string, input appcore.ReviewInput) error
 	GetQuiz(ctx context.Context, topicID string) ([]appcore.QuizQuestion, error)
 	SubmitQuiz(ctx context.Context, userID, topicID string, input appcore.QuizAnswerInput) (*appcore.QuizResult, error)
+	GetStats(ctx context.Context, userID string) (*appcore.StatsOutput, error)
 }
 
 type VocabHandler struct {
@@ -127,6 +128,20 @@ func (h *VocabHandler) GetQuiz(c *gin.Context) {
 		return
 	}
 	h.presenter.Quiz(c, http.StatusOK, questions)
+}
+
+func (h *VocabHandler) GetStats(c *gin.Context) {
+	userID, ok := ctxbase.GetUserID(c.Request.Context())
+	if !ok {
+		httpbase.Error(c, http.StatusUnauthorized, "user not found in context")
+		return
+	}
+	stats, err := h.useCase.GetStats(c.Request.Context(), userID)
+	if err != nil {
+		httpbase.Error(c, http.StatusInternalServerError, "failed to get stats")
+		return
+	}
+	h.presenter.Stats(c, http.StatusOK, stats)
 }
 
 type quizSubmitRequest struct {

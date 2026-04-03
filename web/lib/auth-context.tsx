@@ -12,6 +12,7 @@ import { api } from "./api";
 interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  displayName: string;
   login: (email: string, password: string) => Promise<void>;
   register: (
     email: string,
@@ -26,10 +27,13 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
+    const name = localStorage.getItem("display_name") || "";
     setIsAuthenticated(!!token);
+    setDisplayName(name);
     setIsLoading(false);
   }, []);
 
@@ -44,17 +48,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     displayName: string
   ) => {
     await api.register(email, password, displayName);
+    localStorage.setItem("display_name", displayName);
+    setDisplayName(displayName);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     api.clearTokens();
+    localStorage.removeItem("display_name");
     setIsAuthenticated(false);
+    setDisplayName("");
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, isLoading, login, register, logout }}
+      value={{ isAuthenticated, isLoading, displayName, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>

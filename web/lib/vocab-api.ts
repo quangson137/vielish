@@ -90,3 +90,15 @@ export async function submitQuiz(
   if (!res.ok) throw new Error("Failed to submit quiz");
   return res.json();
 }
+
+export interface UserStats {
+  streak: number;
+  total_learned: number;
+  due_today: number;
+}
+
+export async function fetchStats(): Promise<UserStats> {
+  const res = await api.request("/api/stats");
+  if (!res.ok) throw new Error("Failed to fetch stats");
+  return res.json();
+}

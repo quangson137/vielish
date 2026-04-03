@@ -50,6 +50,9 @@ func (s *stubVocabUC) GetQuiz(_ context.Context, _ string) ([]appcore.QuizQuesti
 func (s *stubVocabUC) SubmitQuiz(_ context.Context, _, _ string, _ appcore.QuizAnswerInput) (*appcore.QuizResult, error) {
 	return s.quiz, nil
 }
+func (s *stubVocabUC) GetStats(_ context.Context, _ string) (*appcore.StatsOutput, error) {
+	return &appcore.StatsOutput{}, nil
+}
 
 func setUserID(c *gin.Context, userID string) {
 	ctx := ctxbase.SetUserID(c.Request.Context(), userID)

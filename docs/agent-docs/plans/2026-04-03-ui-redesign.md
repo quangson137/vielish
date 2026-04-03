@@ -1,6 +1,6 @@
 # UI Redesign Implementation Plan
 
-> Steps use checkbox (`- [ ]`) syntax for tracking progress.
+> Steps use checkbox (`- [x]`) syntax for tracking progress.
 
 **Goal:** Apply a consistent warm/friendly theme across all pages, add dashboard stats, and TTS pronunciation to flashcards.
 
@@ -15,7 +15,7 @@
 **Files:**
 - Modify: `web/app/globals.css`
 
-- [ ] **Step 1: Update CSS variables and theme tokens**
+- [x] **Step 1: Update CSS variables and theme tokens**
 
 Replace the entire `web/app/globals.css` with warm color tokens:
 
@@ -59,7 +59,7 @@ body {
 
 Note: Removed the `prefers-color-scheme: dark` media query — Vielish is warm-only, no dark mode toggle.
 
-- [ ] **Step 2: Verify the dev server loads without errors**
+- [x] **Step 2: Verify the dev server loads without errors**
 
 Run: `cd web && npm run dev`
 Expected: App loads at localhost:3000. Background is now cream (#fffbeb) instead of white/dark.
@@ -71,7 +71,7 @@ Expected: App loads at localhost:3000. Background is now cream (#fffbeb) instead
 **Files:**
 - Modify: `web/app/page.tsx`
 
-- [ ] **Step 1: Replace landing page with warm minimal layout**
+- [x] **Step 1: Replace landing page with warm minimal layout**
 
 Replace `web/app/page.tsx` entirely:
 
@@ -129,7 +129,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 2: Verify landing page renders correctly**
+- [x] **Step 2: Verify landing page renders correctly**
 
 Run: Open `http://localhost:3000` in browser.
 Expected: Cream background, navbar with logo + 2 buttons, centered hero with tagline, 2 CTAs, social proof line. All in amber/warm color scheme.
@@ -143,7 +143,7 @@ Expected: Cream background, navbar with logo + 2 buttons, centered hero with tag
 - Modify: `web/app/login/page.tsx`
 - Modify: `web/app/register/page.tsx`
 
-- [ ] **Step 1: Update AuthForm component with warm colors**
+- [x] **Step 1: Update AuthForm component with warm colors**
 
 In `web/components/auth-form.tsx`, replace the following class strings:
 
@@ -170,7 +170,7 @@ In `web/components/auth-form.tsx`, replace the following class strings:
    className="w-full py-3 bg-warm-accent text-white rounded-lg hover:bg-warm-accent-hover disabled:opacity-50"
    ```
 
-- [ ] **Step 2: Update login page**
+- [x] **Step 2: Update login page**
 
 Replace `web/app/login/page.tsx`:
 
@@ -212,7 +212,7 @@ export default function LoginPage() {
 }
 ```
 
-- [ ] **Step 3: Update register page**
+- [x] **Step 3: Update register page**
 
 Read `web/app/register/page.tsx` and apply the same pattern as login:
 - Add `bg-warm-bg` to `<main>`
@@ -261,7 +261,7 @@ export default function RegisterPage() {
 }
 ```
 
-- [ ] **Step 4: Verify auth pages**
+- [x] **Step 4: Verify auth pages**
 
 Run: Open `http://localhost:3000/login` and `http://localhost:3000/register` in browser.
 Expected: Cream background, amber buttons, warm-colored inputs. Vielish logo links back to `/`.
@@ -273,7 +273,7 @@ Expected: Cream background, amber buttons, warm-colored inputs. Vielish logo lin
 **Files:**
 - Modify: `web/lib/auth-context.tsx`
 
-- [ ] **Step 1: Add displayName to auth context**
+- [x] **Step 1: Add displayName to auth context**
 
 The auth context needs to expose `displayName` for the dashboard greeting. Since the backend login response doesn't include it, store it in localStorage during register. For login users, it will be empty.
 
@@ -360,7 +360,7 @@ export function useAuth() {
 }
 ```
 
-- [ ] **Step 2: Verify auth context compiles**
+- [x] **Step 2: Verify auth context compiles**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No type errors. The new `displayName` field is available in `useAuth()`.
@@ -379,7 +379,7 @@ Expected: No type errors. The new `displayName` field is available in `useAuth()
 - Modify: `server/internal/driving/httpui/server.go`
 - Create: `server/internal/appcore/vocab/streak_test.go` (streak calculation test)
 
-- [ ] **Step 1: Add repository interface methods**
+- [x] **Step 1: Add repository interface methods**
 
 In `server/internal/domain/vocab/repository.go`, add 3 new methods to the `Repository` interface:
 
@@ -406,7 +406,7 @@ type Repository interface {
 }
 ```
 
-- [ ] **Step 2: Add StatsOutput DTO**
+- [x] **Step 2: Add StatsOutput DTO**
 
 In `server/internal/appcore/vocab/dto.go`, add at the end:
 
@@ -418,7 +418,7 @@ type StatsOutput struct {
 }
 ```
 
-- [ ] **Step 3: Add GetStats use case method**
+- [x] **Step 3: Add GetStats use case method**
 
 In `server/internal/appcore/vocab/usecase.go`, add:
 
@@ -472,7 +472,7 @@ func calculateStreak(dates []time.Time) int {
 }
 ```
 
-- [ ] **Step 4: Write test for calculateStreak**
+- [x] **Step 4: Write test for calculateStreak**
 
 Create `server/internal/appcore/vocab/streak_test.go`:
 
@@ -540,12 +540,12 @@ func TestCalculateStreak(t *testing.T) {
 }
 ```
 
-- [ ] **Step 5: Run streak test**
+- [x] **Step 5: Run streak test**
 
 Run: `cd server && go test ./internal/appcore/vocab/ -run TestCalculateStreak -v`
 Expected: All 5 sub-tests PASS.
 
-- [ ] **Step 6: Implement repository methods**
+- [x] **Step 6: Implement repository methods**
 
 In `server/internal/driven/vocab/repository.go`, add these 3 methods:
 
@@ -590,7 +590,7 @@ func (r *Repository) GetReviewDates(ctx context.Context, userID string) ([]time.
 }
 ```
 
-- [ ] **Step 7: Add handler interface method and handler**
+- [x] **Step 7: Add handler interface method and handler**
 
 In `server/internal/driving/httpui/handler/vocab_handler.go`, add `GetStats` to the interface:
 
@@ -625,7 +625,7 @@ func (h *VocabHandler) GetStats(c *gin.Context) {
 }
 ```
 
-- [ ] **Step 8: Add presenter method**
+- [x] **Step 8: Add presenter method**
 
 In `server/internal/driving/httpui/presenter/vocab_presenter.go`, add:
 
@@ -635,7 +635,7 @@ func (p *VocabPresenter) Stats(c *gin.Context, status int, stats *appcore.StatsO
 }
 ```
 
-- [ ] **Step 9: Register the route**
+- [x] **Step 9: Register the route**
 
 In `server/internal/driving/httpui/server.go`, inside the `protected` group (after the quiz routes), add:
 
@@ -656,7 +656,7 @@ protected := r.Group("/api").Use(middleware.Auth(svc))
 }
 ```
 
-- [ ] **Step 10: Verify backend compiles**
+- [x] **Step 10: Verify backend compiles**
 
 Run: `cd server && go build ./cmd/api/`
 Expected: Build succeeds with no errors.
@@ -668,7 +668,7 @@ Expected: Build succeeds with no errors.
 **Files:**
 - Modify: `web/lib/vocab-api.ts`
 
-- [ ] **Step 1: Add fetchStats function**
+- [x] **Step 1: Add fetchStats function**
 
 Add at the end of `web/lib/vocab-api.ts`:
 
@@ -694,7 +694,7 @@ export async function fetchStats(): Promise<UserStats> {
 - Modify: `web/app/dashboard/page.tsx`
 - Modify: `web/app/dashboard/layout.tsx`
 
-- [ ] **Step 1: Rewrite dashboard page with greeting, stats, and action cards**
+- [x] **Step 1: Rewrite dashboard page with greeting, stats, and action cards**
 
 Replace `web/app/dashboard/page.tsx`:
 
@@ -776,7 +776,7 @@ export default function DashboardPage() {
 }
 ```
 
-- [ ] **Step 2: Update dashboard layout with warm theme and nav active state**
+- [x] **Step 2: Update dashboard layout with warm theme and nav active state**
 
 Replace `web/app/dashboard/layout.tsx`:
 
@@ -862,7 +862,7 @@ export default function DashboardLayout({
 }
 ```
 
-- [ ] **Step 3: Verify dashboard**
+- [x] **Step 3: Verify dashboard**
 
 Run: Register a new account and navigate to `/dashboard`.
 Expected: Greeting with display name, 3 stat cards (showing "–" if backend stats endpoint is not running), 2 action cards with icons and warm colors. Nav has active state highlighting.
@@ -874,7 +874,7 @@ Expected: Greeting with display name, 3 stat cards (showing "–" if backend sta
 **Files:**
 - Modify: `web/components/flashcard.tsx`
 
-- [ ] **Step 1: Add TTS support to flashcard**
+- [x] **Step 1: Add TTS support to flashcard**
 
 Replace `web/components/flashcard.tsx`:
 
@@ -998,7 +998,7 @@ Key changes from original:
 - Added `useEffect` to reset `flipped` when `word` changes (bug fix)
 - Applied warm color tokens to all text
 
-- [ ] **Step 2: Verify TTS works**
+- [x] **Step 2: Verify TTS works**
 
 Run: Navigate to a learn page and click the 🔊 button.
 Expected: Browser speaks the English word aloud. Button hidden in browsers without Speech API.
@@ -1007,7 +1007,7 @@ Expected: Browser speaks the English word aloud. Button hidden in browsers witho
 
 ### Task 9: Final Verification
 
-- [ ] **Step 1: Full visual check**
+- [x] **Step 1: Full visual check**
 
 Open each page in browser and verify warm theme is consistent:
 
@@ -1018,12 +1018,12 @@ Open each page in browser and verify warm theme is consistent:
 5. `http://localhost:3000/dashboard/topics` — warm bg inherited from layout
 6. Flashcard page — warm card, TTS button visible
 
-- [ ] **Step 2: Run backend tests**
+- [x] **Step 2: Run backend tests**
 
 Run: `cd server && go test ./...`
 Expected: All tests pass including the new streak tests.
 
-- [ ] **Step 3: Run frontend type check**
+- [x] **Step 3: Run frontend type check**
 
 Run: `cd web && npx tsc --noEmit`
 Expected: No type errors.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Word } from "@/lib/vocab-api";
 
 interface FlashcardProps {
@@ -10,41 +10,69 @@ interface FlashcardProps {
 
 export default function Flashcard({ word, onRate }: FlashcardProps) {
   const [flipped, setFlipped] = useState(false);
+  const [hasTTS, setHasTTS] = useState(false);
+
+  useEffect(() => {
+    setHasTTS(typeof window !== "undefined" && "speechSynthesis" in window);
+  }, []);
+
+  useEffect(() => {
+    setFlipped(false);
+  }, [word]);
+
+  const speak = () => {
+    const utterance = new SpeechSynthesisUtterance(word.word);
+    utterance.lang = "en-US";
+    window.speechSynthesis.speak(utterance);
+  };
 
   return (
     <div className="max-w-md mx-auto">
       <div
         onClick={() => setFlipped(!flipped)}
-        className="border rounded-lg p-8 min-h-[250px] flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-shadow"
+        className="relative border border-warm-border bg-warm-surface rounded-lg p-8 min-h-[250px] flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition-shadow"
       >
+        {hasTTS && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              speak();
+            }}
+            className="absolute top-4 right-4 text-warm-subtle hover:text-warm-accent transition-colors text-xl"
+            aria-label="Phát âm"
+          >
+            🔊
+          </button>
+        )}
+
         {!flipped ? (
           <>
-            <p className="text-3xl font-bold mb-2">{word.word}</p>
+            <p className="text-3xl font-bold mb-2 text-warm-text">{word.word}</p>
             {word.ipa_phonetic && (
-              <p className="text-gray-500">{word.ipa_phonetic}</p>
+              <p className="text-warm-subtle">{word.ipa_phonetic}</p>
             )}
             {word.part_of_speech && (
-              <p className="text-gray-400 text-sm mt-1">
+              <p className="text-warm-subtle text-sm mt-1">
                 {word.part_of_speech}
               </p>
             )}
-            <p className="text-gray-400 text-sm mt-4">Nhấn để lật thẻ</p>
+            <p className="text-warm-subtle text-sm mt-4">Nhấn để lật thẻ</p>
           </>
         ) : (
           <>
-            <p className="text-2xl font-semibold text-blue-700 mb-3">
+            <p className="text-2xl font-semibold text-warm-accent mb-3">
               {word.vi_meaning}
             </p>
             {word.en_definition && (
-              <p className="text-gray-600 text-sm mb-2">
+              <p className="text-warm-muted text-sm mb-2">
                 {word.en_definition}
               </p>
             )}
             {word.example_sentence && (
-              <div className="mt-3 text-sm text-gray-500">
+              <div className="mt-3 text-sm text-warm-subtle">
                 <p className="italic">{word.example_sentence}</p>
                 {word.example_vi_translation && (
-                  <p className="text-gray-400 mt-1">
+                  <p className="text-warm-subtle mt-1">
                     {word.example_vi_translation}
                   </p>
                 )}

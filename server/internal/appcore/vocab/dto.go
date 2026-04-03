@@ -53,3 +53,9 @@ type QuizItemResult struct {
 	Correct       bool   `json:"correct"`
 	CorrectAnswer string `json:"correct_answer"`
 }
+
+type StatsOutput struct {
+	Streak       int `json:"streak"`
+	TotalLearned int `json:"total_learned"`
+	DueToday     int `json:"due_today"`
+}
