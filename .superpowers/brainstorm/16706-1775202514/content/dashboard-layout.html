@@ -1,0 +1,115 @@
+<h2>Dashboard nên hiển thị gì?</h2>
+<p class="subtitle">Hiện tại chỉ có 2 card trống. Bạn muốn thêm gì để user cảm thấy motivated?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="stats-light" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:14px; border-radius:8px; font-family:sans-serif; font-size:11px;">
+      <!-- Greeting -->
+      <div style="font-weight:700; color:#1c1917; font-size:13px; margin-bottom:10px;">Chào buổi sáng, Son 👋</div>
+      <!-- Stats row -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px;">
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center; border:1px solid #fde68a;">
+          <div style="font-size:18px; font-weight:800; color:#f59e0b;">7</div>
+          <div style="color:#78350f; font-size:9px;">ngày streak 🔥</div>
+        </div>
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center; border:1px solid #fde68a;">
+          <div style="font-size:18px; font-weight:800; color:#16a34a;">42</div>
+          <div style="color:#78350f; font-size:9px;">từ đã học</div>
+        </div>
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center; border:1px solid #fde68a;">
+          <div style="font-size:18px; font-weight:800; color:#3b82f6;">5</div>
+          <div style="color:#78350f; font-size:9px;">cần ôn hôm nay</div>
+        </div>
+      </div>
+      <!-- Action cards -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <div style="background:#f59e0b; border-radius:6px; padding:10px; color:white;">
+          <div style="font-size:14px;">🃏</div>
+          <div style="font-weight:600; margin-top:2px;">Chủ đề từ vựng</div>
+          <div style="font-size:9px; opacity:0.8; margin-top:2px;">Học từ mới theo chủ đề</div>
+        </div>
+        <div style="background:white; border:1px solid #fde68a; border-radius:6px; padding:10px; color:#1c1917;">
+          <div style="font-size:14px;">🔁</div>
+          <div style="font-weight:600; margin-top:2px;">Ôn tập hôm nay</div>
+          <div style="font-size:9px; color:#78350f; margin-top:2px;">5 từ đang chờ bạn</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Stats + Action Cards</h3>
+      <p>Greeting cá nhân, 3 stats nhỏ (streak / tổng từ / từ cần ôn), 2 action card. Đủ context để biết hôm nay cần làm gì.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="daily-focus" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:14px; border-radius:8px; font-family:sans-serif; font-size:11px;">
+      <!-- Daily goal banner -->
+      <div style="background:#f59e0b; border-radius:8px; padding:10px 12px; color:white; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:700; font-size:12px;">Nhiệm vụ hôm nay</div>
+          <div style="font-size:9px; opacity:0.9; margin-top:1px;">Ôn 5 từ · Học 10 từ mới</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-weight:800; font-size:18px;">40%</div>
+          <div style="font-size:9px; opacity:0.8;">hoàn thành</div>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="background:#fde68a; border-radius:4px; height:6px; margin-bottom:10px;">
+        <div style="background:#f59e0b; width:40%; height:100%; border-radius:4px;"></div>
+      </div>
+      <!-- Stats inline -->
+      <div style="display:flex; gap:12px; color:#78350f; font-size:10px; margin-bottom:10px;">
+        <span>🔥 7 ngày streak</span>
+        <span>📚 42 từ đã học</span>
+      </div>
+      <!-- Cards -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+        <div style="background:white; border:1px solid #fde68a; border-radius:6px; padding:8px;">
+          <div>🃏 Chủ đề từ vựng</div>
+        </div>
+        <div style="background:white; border:2px solid #f59e0b; border-radius:6px; padding:8px;">
+          <div>🔁 Ôn tập (5) <span style="color:#f59e0b;">●</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Daily Goal + Progress Bar</h3>
+      <p>Banner "nhiệm vụ hôm nay" nổi bật với % hoàn thành, progress bar. Gamification nhẹ, tạo cảm giác cần hoàn thành.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="simple-plus" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:14px; border-radius:8px; font-family:sans-serif; font-size:11px;">
+      <!-- Header -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div style="font-weight:700; color:#1c1917; font-size:13px;">Bảng điều khiển</div>
+        <div style="background:#fef3c7; border-radius:12px; padding:3px 8px; color:#92400e; font-size:10px;">🔥 7 ngày</div>
+      </div>
+      <!-- Simple cards with more info -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+        <div style="background:white; border:1px solid #fde68a; border-radius:8px; padding:10px;">
+          <div style="font-size:16px; margin-bottom:4px;">🃏</div>
+          <div style="font-weight:600; color:#1c1917;">Chủ đề từ vựng</div>
+          <div style="color:#a16207; font-size:9px; margin-top:2px;">12 chủ đề có sẵn</div>
+        </div>
+        <div style="background:white; border:1px solid #fde68a; border-radius:8px; padding:10px;">
+          <div style="font-size:16px; margin-bottom:4px;">🔁</div>
+          <div style="font-weight:600; color:#1c1917;">Ôn tập hôm nay</div>
+          <div style="color:#f59e0b; font-size:9px; margin-top:2px; font-weight:600;">5 từ đang chờ ●</div>
+        </div>
+      </div>
+      <!-- Tiny stats footer -->
+      <div style="border-top:1px solid #fde68a; padding-top:8px; display:flex; gap:12px; color:#a16207; font-size:9px;">
+        <span>📚 42 từ đã học</span>
+        <span>✅ 89% chính xác</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Cards nâng cấp + Stats nhỏ</h3>
+      <p>Giữ layout 2 card nhưng thêm icon, mô tả có ích, streak badge góc trên. Stats nhỏ ở footer. Ít thay đổi nhất.</p>
+    </div>
+  </div>
+
+</div>

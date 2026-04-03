@@ -1,0 +1,48 @@
+<h2>Flashcard nên được cải thiện như thế nào?</h2>
+<p class="subtitle">Hiện tại: click để flip, không có animation, không có audio. Chọn những cải tiến bạn muốn (multi-select).</p>
+
+<div class="options" data-multiselect>
+
+  <div class="option" data-choice="flip-animation" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>CSS 3D Flip Animation</h3>
+      <p>Thẻ lật có hiệu ứng 3D thật sự khi click. Cảm giác vật lý, satisfying hơn nhiều so với đổi nội dung đột ngột. Chi phí: thêm ~15 dòng CSS.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tts-button" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Nút phát âm (TTS) 🔊</h3>
+      <p>Icon loa nhỏ trên flashcard để nghe phát âm từ. Dùng Web Speech API (miễn phí, không cần backend) hoặc gọi TTS endpoint. Cực kỳ hữu ích cho người học.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="progress-bar" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>Progress bar thay vì "X / Y"</h3>
+      <p>Thanh tiến trình visual thay cho text "3 / 10". Nhìn trực quan hơn, tạo cảm giác gần đến đích. Đổi màu khi đến cuối.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="keyboard-shortcuts" onclick="toggleSelect(this)">
+    <div class="letter">4</div>
+    <div class="content">
+      <h3>Keyboard shortcuts</h3>
+      <p>Space để flip, phím 1/2/3 để rate Khó/Ổn/Dễ. Cho power users học nhanh hơn nhiều mà không cần click chuột.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="swipe-gesture" onclick="toggleSelect(this)">
+    <div class="letter">5</div>
+    <div class="content">
+      <h3>Swipe gesture (mobile)</h3>
+      <p>Swipe trái = Khó, swipe phải = Dễ, swipe lên = Ổn. Trải nghiệm mobile tự nhiên hơn. Cần thêm touch event handling.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top: 20px;">Chọn tất cả những gì bạn muốn triển khai, sau đó cho tôi biết trong terminal.</p>

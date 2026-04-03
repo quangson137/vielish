@@ -1,0 +1,104 @@
+<h2>Landing page nên có layout như thế nào?</h2>
+<p class="subtitle">Với tone Warm & Friendly (amber/cam). Hiện tại chỉ có tên + 2 nút trên nền đen — quá trống.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="hero-simple" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:16px; border-radius:8px; font-family:sans-serif;">
+      <!-- Navbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <span style="font-weight:800; color:#92400e; font-size:15px;">Vielish</span>
+        <div style="display:flex; gap:8px;">
+          <span style="font-size:11px; color:#b45309; border:1px solid #f59e0b; border-radius:4px; padding:3px 8px;">Đăng nhập</span>
+          <span style="font-size:11px; color:white; background:#f59e0b; border-radius:4px; padding:3px 8px;">Đăng ký</span>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div style="text-align:center; padding:16px 8px;">
+        <div style="font-size:28px; margin-bottom:6px;">📚</div>
+        <div style="font-weight:800; font-size:18px; color:#1c1917; margin-bottom:6px;">Học tiếng Anh<br>theo cách của người Việt</div>
+        <div style="color:#78350f; font-size:11px; margin-bottom:14px;">Flashcard + SRS thông minh, giao diện tiếng Việt</div>
+        <div style="background:#f59e0b; color:white; border-radius:6px; padding:8px 18px; font-size:12px; font-weight:600; display:inline-block;">Bắt đầu miễn phí →</div>
+      </div>
+      <!-- 3 features -->
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:12px;">
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center;">
+          <div style="font-size:16px;">🃏</div>
+          <div style="font-size:10px; font-weight:600; color:#1c1917;">Flashcard</div>
+        </div>
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center;">
+          <div style="font-size:16px;">🔁</div>
+          <div style="font-size:10px; font-weight:600; color:#1c1917;">SRS Review</div>
+        </div>
+        <div style="background:white; border-radius:6px; padding:8px; text-align:center;">
+          <div style="font-size:16px;">🔥</div>
+          <div style="font-size:10px; font-weight:600; color:#1c1917;">Streak</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Hero + Feature Highlights</h3>
+      <p>Navbar đơn giản, hero có tagline + emoji, CTA lớn, bên dưới 3 feature icons. Đủ để convert, không quá tải.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hero-split" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:16px; border-radius:8px; font-family:sans-serif;">
+      <!-- Navbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <span style="font-weight:800; color:#92400e; font-size:15px;">Vielish</span>
+        <div style="display:flex; gap:8px;">
+          <span style="font-size:11px; color:#b45309; border:1px solid #f59e0b; border-radius:4px; padding:3px 8px;">Đăng nhập</span>
+          <span style="font-size:11px; color:white; background:#f59e0b; border-radius:4px; padding:3px 8px;">Đăng ký</span>
+        </div>
+      </div>
+      <!-- Split hero -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:center;">
+        <div>
+          <div style="font-weight:800; font-size:16px; color:#1c1917; margin-bottom:6px;">Học tiếng Anh thông minh hơn</div>
+          <div style="color:#78350f; font-size:10px; margin-bottom:10px;">Flashcard + SRS giúp bạn nhớ từ lâu hơn. Giao diện hoàn toàn bằng tiếng Việt.</div>
+          <div style="background:#f59e0b; color:white; border-radius:6px; padding:6px 12px; font-size:11px; font-weight:600; display:inline-block;">Bắt đầu miễn phí</div>
+        </div>
+        <!-- Mockup flashcard -->
+        <div style="background:white; border-radius:8px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-align:center;">
+          <div style="font-weight:700; font-size:14px; color:#1c1917; margin-bottom:2px;">apple</div>
+          <div style="color:#9ca3af; font-size:10px; margin-bottom:6px;">/ˈæp.əl/ · noun</div>
+          <div style="border-top:1px solid #f3f4f6; padding-top:6px; color:#f59e0b; font-weight:600; font-size:12px;">quả táo</div>
+          <div style="display:flex; gap:4px; justify-content:center; margin-top:8px;">
+            <span style="background:#fef2f2; color:#ef4444; border-radius:4px; font-size:9px; padding:3px 6px;">Khó</span>
+            <span style="background:#fefce8; color:#ca8a04; border-radius:4px; font-size:9px; padding:3px 6px;">Ổn</span>
+            <span style="background:#f0fdf4; color:#16a34a; border-radius:4px; font-size:9px; padding:3px 6px;">Dễ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Split Hero + Flashcard Preview</h3>
+      <p>Trái: tagline + CTA. Phải: preview flashcard thật. User thấy ngay sản phẩm trước khi đăng ký. Thuyết phục hơn.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="minimal-plus" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fffbeb; padding:16px; border-radius:8px; font-family:sans-serif;">
+      <!-- Simple centered -->
+      <div style="text-align:center; padding:10px 0 16px;">
+        <div style="font-weight:800; color:#92400e; font-size:16px; margin-bottom:16px;">Vielish</div>
+        <div style="font-weight:800; font-size:16px; color:#1c1917; margin-bottom:4px;">Học từ vựng tiếng Anh<br>không bao giờ quên</div>
+        <div style="color:#78350f; font-size:10px; margin-bottom:14px;">SRS thông minh · Giao diện Việt · Miễn phí</div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-bottom:16px;">
+          <span style="background:#f59e0b; color:white; border-radius:6px; padding:6px 14px; font-size:11px; font-weight:600;">Đăng ký miễn phí</span>
+          <span style="border:1px solid #f59e0b; color:#b45309; border-radius:6px; padding:6px 14px; font-size:11px;">Đăng nhập</span>
+        </div>
+        <!-- Social proof -->
+        <div style="color:#a16207; font-size:10px; border-top:1px dashed #fde68a; padding-top:10px;">
+          ⭐ Được dùng bởi hàng nghìn học viên Việt Nam
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Minimal + Social Proof</h3>
+      <p>Giữ simple như hiện tại nhưng thêm tagline mạnh hơn, 2 CTA rõ ràng, và social proof nhỏ. Ít thay đổi nhất.</p>
+    </div>
+  </div>
+
+</div>
