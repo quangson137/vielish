@@ -1,0 +1,22 @@
+app:
+  port: "8080"
+  env: development
+
+database:
+  url: postgres://vielish:vielish_dev@localhost:5432/vielish?sslmode=disable
+
+redis:
+  url: redis://localhost:6379
+
+jwt:
+  secret: dev-secret-change-in-production
+  access_ttl: 1h
+  refresh_ttl: 168h
+
+cors:
+  origins:
+    - http://localhost:3000
+
+tracing:
+  enabled: false
+  endpoint: localhost:4317

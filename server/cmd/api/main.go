@@ -1,42 +1,34 @@
 package main
 
 import (
-	"context"
-	"log"
+	"go.uber.org/fx"
 
-	"github.com/sonpham/vielish/server/internal/auth"
-	"github.com/sonpham/vielish/server/internal/config"
-	"github.com/sonpham/vielish/server/internal/database"
-	"github.com/sonpham/vielish/server/internal/router"
+	authAppcore "github.com/sonpham/vielish/server/internal/appcore/auth"
+	authDomain "github.com/sonpham/vielish/server/internal/domain/auth"
+	authDriven "github.com/sonpham/vielish/server/internal/driven/auth"
+	"github.com/sonpham/vielish/server/internal/driven/database"
+	"github.com/sonpham/vielish/server/internal/driving/httpui"
+	"github.com/sonpham/vielish/server/pkg/config"
+	pkglog "github.com/sonpham/vielish/server/pkg/log"
+	"github.com/sonpham/vielish/server/pkg/tracing"
 )
 
 func main() {
-	cfg, err := config.Load()
-	if err != nil {
-		log.Fatalf("Failed to load config: %v", err)
-	}
-	ctx := context.Background()
+	fx.New(
+		// Infrastructure
+		config.Module,
+		pkglog.Module,
+		tracing.Module,
+		database.Module,
 
-	db, err := database.NewPostgres(ctx, cfg.DatabaseURL)
-	if err != nil {
-		log.Fatalf("Failed to connect to PostgreSQL: %v", err)
-	}
-	defer db.Close()
+		// Auth feature
+		fx.Module("auth",
+			authDomain.Module,
+			authAppcore.Module,
+			authDriven.Module,
+		),
 
-	rdb, err := database.NewRedis(ctx, cfg.RedisURL)
-	if err != nil {
-		log.Fatalf("Failed to connect to Redis: %v", err)
-	}
-	defer rdb.Close()
-
-	authRepo := auth.NewRepository(db)
-	authService := auth.NewService(authRepo, rdb, cfg.JWTSecret)
-	authHandler := auth.NewHandler(authService)
-
-	r := router.New(authHandler, cfg.JWTSecret, cfg.CORSOrigins)
-
-	log.Printf("Starting server on :%s", cfg.Port)
-	if err := r.Run(":" + cfg.Port); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
-	}
+		// HTTP server
+		httpui.Module,
+	).Run()
 }
