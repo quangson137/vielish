@@ -65,8 +65,9 @@ func RegisterRoutes(r *gin.Engine, authHandler *handler.Handler, vocabHandler *h
 
 func RegisterLifecycle(lc fx.Lifecycle, shutter fx.Shutdowner, r *gin.Engine, cfg config.Config, log *zap.Logger) {
 	srv := &http.Server{
-		Addr:    ":" + cfg.App.Port,
-		Handler: r,
+		Addr:              ":" + cfg.App.Port,
+		Handler:           r,
+		ReadHeaderTimeout: 10 * time.Second,
 	}
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {

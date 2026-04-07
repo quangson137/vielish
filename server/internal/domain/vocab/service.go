@@ -38,7 +38,7 @@ func (s *Service) CalculateReview(current *UserWordProgress, quality int, now ti
 	}
 
 	q := float64(quality)
-	ef = ef + (0.1 - (5-q)*(0.08+(5-q)*0.02))
+	ef += 0.1 - (5-q)*(0.08+(5-q)*0.02)
 	if ef < 1.3 {
 		ef = 1.3
 	}

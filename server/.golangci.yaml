@@ -1,0 +1,77 @@
+version: "2"
+run:
+  modules-download-mode: readonly
+  tests: false
+linters:
+  enable:
+    - bodyclose
+    - dupl
+    - errorlint
+    - funlen
+    - goconst
+    - gocritic
+    - gocyclo
+    - goprintffuncname
+    - gosec
+    - lll
+    - misspell
+    - nolintlint
+    - revive
+    - unconvert
+    - unparam
+    - whitespace
+  settings:
+    dupl:
+      threshold: 200
+    funlen:
+      lines: 110
+      statements: 50
+    lll:
+      line-length: 160
+    revive:
+      rules:
+        - name: var-naming
+          arguments:
+            - ["API", "SQL", "JSON", "HTTP", "ID", "URL", "URI", "TTL", "IP", "UUID", "ACL", "UI", "DB", "CPU", "GID", "UID"]
+            - []
+          severity: warning
+          disabled: false
+        - name: cognitive-complexity
+          arguments: [40]
+          severity: warning
+          disabled: false
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - dupl
+          - errcheck
+          - gocyclo
+          - gosec
+        path: _test.go
+      - linters:
+          - dupl
+        path: _errors.go
+      - linters:
+          - lll
+        source: '^//go:generate '
+      - linters:
+          - revive
+        text: "avoid meaningless package names"
+        path: "common/.*\\.go"
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
