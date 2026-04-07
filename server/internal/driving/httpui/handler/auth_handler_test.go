@@ -103,5 +103,69 @@ func TestHandler_Login_401_BadPassword(t *testing.T) {
 	}
 }
 
+func TestHandler_Login_200(t *testing.T) {
+	stub := &stubUseCase{
+		loginFn: func(_ context.Context, _ appcore.LoginInput) (*appcore.TokenOutput, error) {
+			return &appcore.TokenOutput{AccessToken: "at", RefreshToken: "rt", ExpiresIn: 3600}, nil
+		},
+	}
+	_, r := newTestHandler(stub)
+	w := postJSON(t, r, "/login", map[string]string{"email": "a@b.com", "password": "pass1234"})
+	if w.Code != http.StatusOK {
+		t.Errorf("status = %d, want 200; body: %s", w.Code, w.Body)
+	}
+}
+
+func TestHandler_Register_400_InvalidInput(t *testing.T) {
+	stub := &stubUseCase{
+		registerFn: func(_ context.Context, _ appcore.RegisterInput) (*appcore.TokenOutput, error) {
+			return &appcore.TokenOutput{}, nil
+		},
+	}
+	_, r := newTestHandler(stub)
+	// missing display_name, short password
+	w := postJSON(t, r, "/register", map[string]string{"email": "bad-email", "password": "short"})
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("status = %d, want 400; body: %s", w.Code, w.Body)
+	}
+}
+
+func TestHandler_Refresh_200(t *testing.T) {
+	stub := &stubUseCase{
+		refreshFn: func(_ context.Context, _ string) (*appcore.TokenOutput, error) {
+			return &appcore.TokenOutput{AccessToken: "new-at", RefreshToken: "new-rt", ExpiresIn: 3600}, nil
+		},
+	}
+	_, r := newTestHandler(stub)
+	w := postJSON(t, r, "/refresh", map[string]string{"refresh_token": "old-rt"})
+	if w.Code != http.StatusOK {
+		t.Errorf("status = %d, want 200; body: %s", w.Code, w.Body)
+	}
+}
+
+func TestHandler_Refresh_401_InvalidToken(t *testing.T) {
+	stub := &stubUseCase{
+		refreshFn: func(_ context.Context, _ string) (*appcore.TokenOutput, error) {
+			return nil, domain.ErrInvalidToken
+		},
+	}
+	_, r := newTestHandler(stub)
+	w := postJSON(t, r, "/refresh", map[string]string{"refresh_token": "bad-rt"})
+	if w.Code != http.StatusUnauthorized {
+		t.Errorf("status = %d, want 401; body: %s", w.Code, w.Body)
+	}
+}
+
+func TestHandler_Logout_200(t *testing.T) {
+	stub := &stubUseCase{
+		logoutFn: func(_ context.Context, _ string) error { return nil },
+	}
+	_, r := newTestHandler(stub)
+	w := postJSON(t, r, "/logout", map[string]string{"refresh_token": "rt"})
+	if w.Code != http.StatusOK {
+		t.Errorf("status = %d, want 200; body: %s", w.Code, w.Body)
+	}
+}
+
 // keep compiler happy
 var _ = errors.New

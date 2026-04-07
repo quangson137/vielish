@@ -224,6 +224,127 @@ func TestGetQuiz(t *testing.T) {
 	}
 }
 
+func TestGetWord(t *testing.T) {
+	repo := newStubRepo()
+	repo.words = []domain.Word{{ID: "w1", Word: "apple", VIMeaning: "quả táo", TopicID: "t1"}}
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	out, err := uc.GetWord(context.Background(), "w1")
+	if err != nil {
+		t.Fatalf("GetWord error: %v", err)
+	}
+	if out == nil {
+		t.Fatal("expected word output, got nil")
+	}
+	if out.Word != "apple" {
+		t.Errorf("Word = %q, want %q", out.Word, "apple")
+	}
+}
+
+func TestGetWord_NotFound(t *testing.T) {
+	repo := newStubRepo()
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	_, err := uc.GetWord(context.Background(), "nonexistent")
+	if err == nil {
+		t.Fatal("expected error for missing word")
+	}
+}
+
+func TestGetDueReviews(t *testing.T) {
+	repo := newStubRepo()
+	repo.words = []domain.Word{{ID: "w1", Word: "apple", VIMeaning: "quả táo", TopicID: "t1"}}
+	past := time.Now().Add(-24 * time.Hour)
+	repo.progress["user-1:w1"] = &domain.UserWordProgress{
+		UserID:       "user-1",
+		WordID:       "w1",
+		NextReviewAt: past,
+		ReviewCount:  1,
+	}
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	out, err := uc.GetDueReviews(context.Background(), "user-1")
+	if err != nil {
+		t.Fatalf("GetDueReviews error: %v", err)
+	}
+	if len(out) != 1 {
+		t.Fatalf("len = %d, want 1", len(out))
+	}
+	if out[0].ID != "w1" {
+		t.Errorf("ID = %q, want %q", out[0].ID, "w1")
+	}
+}
+
+func TestGetDueReviews_NoItems(t *testing.T) {
+	repo := newStubRepo()
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	out, err := uc.GetDueReviews(context.Background(), "user-1")
+	if err != nil {
+		t.Fatalf("GetDueReviews error: %v", err)
+	}
+	if len(out) != 0 {
+		t.Errorf("len = %d, want 0", len(out))
+	}
+}
+
+func TestSubmitReview_UpdatesExistingProgress(t *testing.T) {
+	repo := newStubRepo()
+	repo.words = []domain.Word{{ID: "w1", Word: "apple", TopicID: "t1"}}
+	now := time.Now()
+	repo.progress["user-1:w1"] = &domain.UserWordProgress{
+		UserID:       "user-1",
+		WordID:       "w1",
+		EaseFactor:   2.5,
+		IntervalDays: 1,
+		ReviewCount:  1,
+		NextReviewAt: now,
+	}
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	err := uc.SubmitReview(context.Background(), "user-1", "w1", appcore.ReviewInput{Quality: 3})
+	if err != nil {
+		t.Fatalf("SubmitReview error: %v", err)
+	}
+
+	p, _ := repo.GetProgress(context.Background(), "user-1", "w1")
+	if p.ReviewCount != 2 {
+		t.Errorf("ReviewCount = %d, want 2", p.ReviewCount)
+	}
+	// Second review with quality=3 from interval=1 → interval=6
+	if p.IntervalDays != 6 {
+		t.Errorf("IntervalDays = %d, want 6", p.IntervalDays)
+	}
+}
+
+func TestGetStats(t *testing.T) {
+	repo := newStubRepo()
+	repo.words = []domain.Word{
+		{ID: "w1", TopicID: "t1"},
+		{ID: "w2", TopicID: "t1"},
+	}
+	past := time.Now().Add(-time.Hour)
+	future := time.Now().Add(24 * time.Hour)
+	repo.progress["user-1:w1"] = &domain.UserWordProgress{
+		UserID: "user-1", WordID: "w1", ReviewCount: 1, NextReviewAt: past,
+	}
+	repo.progress["user-1:w2"] = &domain.UserWordProgress{
+		UserID: "user-1", WordID: "w2", ReviewCount: 2, NextReviewAt: future,
+	}
+	uc := appcore.NewUseCase(repo, domain.NewService())
+
+	stats, err := uc.GetStats(context.Background(), "user-1")
+	if err != nil {
+		t.Fatalf("GetStats error: %v", err)
+	}
+	if stats.TotalLearned != 2 {
+		t.Errorf("TotalLearned = %d, want 2", stats.TotalLearned)
+	}
+	if stats.DueToday != 1 {
+		t.Errorf("DueToday = %d, want 1", stats.DueToday)
+	}
+}
+
 func TestSubmitQuiz(t *testing.T) {
 	repo := newStubRepo()
 	repo.words = []domain.Word{

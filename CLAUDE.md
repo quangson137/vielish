@@ -10,25 +10,6 @@ English learning web app for Vietnamese speakers. Vocabulary (flashcard + SRS) a
 - **Audio:** Cloud TTS (Google or Azure)
 - **Dev:** Docker Compose
 
-## Project Structure
-
-```
-server/          — Go backend
-  cmd/api/       — entrypoint
-  internal/      — business logic (auth, vocab, listening, srs)
-  pkg/           — shared utilities
-  migrations/    — SQL migrations
-web/             — Next.js frontend
-  app/           — pages (App Router)
-  components/    — UI components
-  lib/           — API client, utils
-docs/            — documentation & specs
-```
-
-## Design Spec
-
-Full spec at `docs/agent-docs/specs/2026-04-02-vielish-mvp-design.md`.
-
 ## Key Decisions
 
 - **SRS algorithm:** SM-2 with 3-level rating: Hard (1) / OK (3) / Easy (5)
@@ -50,9 +31,8 @@ npm run dev
 docker-compose up -d postgres redis
 ```
 
-## Conventions
-
-- Go: follow standard Go project layout (`internal/`, `pkg/`, `cmd/`)
-- Frontend: Next.js App Router conventions, components in `components/`
-- API responses: JSON, consistent error format `{ "error": "message" }`
-- Database migrations: numbered SQL files in `server/migrations/`
+## Document Map
+### Backend Docs
+- [Project structure](./server/docs/project_structure.md)
+- [API Design Standard](./server/docs/api-design-standard.md)
+- [Logging Standard](./server/docs/logging-standard.md)
